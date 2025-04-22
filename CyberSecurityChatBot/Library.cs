@@ -26,4 +26,3 @@ namespace CyberSecurityChatBot
             Console.ResetColor();
         }
     }
-}
