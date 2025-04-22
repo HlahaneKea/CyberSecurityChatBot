@@ -20,9 +20,12 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./CyberSecurityChatBot/ChatBotCyberSecurity.csproj
+
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build ./CyberSecurityChatBot/ChatBotCyberSecurity.csproj --no-restore
+
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test ./CyberSecurityChatBot/ChatBotCyberSecurity.csproj --no-build --verbosity normal
