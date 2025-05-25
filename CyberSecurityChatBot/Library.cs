@@ -109,4 +109,29 @@ namespace CyberSecurityChatBot
                     }
                 }
             }
+            // Main keyword/topic response
+            if (!found)
+            {
+                foreach (var keyword in handlers.Keys)
+                {
+                    if (input.Contains(keyword))
+                    {
+                        handlers[keyword](keyword, namePrefix);
+                        lastTopic = keyword;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            // Follow-up/conversation flow
+            if (!found)
+            {
+                if ((input.Contains("more") || input.Contains("details") || input.Contains("explain") || input.Contains("confused")) && lastTopic != null)
+                {
+                    Console.WriteLine($"Since you asked {namePrefix}Here's some more information about {lastTopic}:");
+                    handlers[lastTopic](lastTopic, namePrefix);
+                    found = true;
+                }
+            }
 
