@@ -15,6 +15,7 @@ namespace CyberSecurityChatBot
 
             greeting.ShowAsciiArt();
             string name = greeting.GetUserName();
+            library.SetUserName(name);
             greeting.WelcomeUser(name);
 
             bool keepChatting = true;
@@ -27,13 +28,13 @@ namespace CyberSecurityChatBot
 
                 if (string.IsNullOrWhiteSpace(input))
                 {
-                    Console.WriteLine("🤖 I didn’t quite understand that. Could you rephrase?");
+                    Console.WriteLine(" I didn’t quite understand that. Could you rephrase?");
                     continue;
                 }
 
                 if (input == "exit")
                 {
-                    Console.WriteLine("👋 Goodbye! Stay safe online!");
+                    Console.WriteLine(" Goodbye! Stay safe online!");
                     keepChatting = false;
                 }
                 else

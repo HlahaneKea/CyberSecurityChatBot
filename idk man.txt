@@ -1,0 +1,91 @@
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(Eventss eventss)
+{
+    try
+    {
+        // Check for double booking
+        var existingEvent = await _context.Eventsses
+            .FirstOrDefaultAsync(e => 
+                e.VenueId == eventss.VenueId && 
+                e.EventDate == eventss.EventDate);
+
+        if (existingEvent != null)
+        {
+            ModelState.AddModelError("", "This venue is already booked for the selected date.");
+            ViewBag.Venues = _context.Venues.Select(v => new SelectListItem
+            {
+                Value = v.VenueId.ToString(),
+                Text = v.Name
+            });
+            return View(eventss);
+        }
+
+        if (ModelState.IsValid)
+        {
+            _context.Add(eventss);
+            await _context.SaveChangesAsync();
+            TempData["Success"] = "Event created successfully.";
+            return RedirectToAction(nameof(Index));
+        }
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError($"Error in Create POST: {ex.Message}");
+        ModelState.AddModelError("", "An error occurred while creating the event.");
+    }
+
+    ViewBag.Venues = _context.Venues.Select(v => new SelectListItem
+    {
+        Value = v.VenueId.ToString(),
+        Text = v.Name
+    });
+    return View(eventss);
+}
+
+
+
+
+public class Eventss
+{
+    public int EventId { get; set; }
+
+    [Required(ErrorMessage = "Event name is required")]
+    [StringLength(250, ErrorMessage = "Name cannot be longer than 250 characters")]
+    public string Name { get; set; }
+
+    [Required(ErrorMessage = "Event date is required")]
+    [Display(Name = "Event Date")]
+    public DateOnly EventDate { get; set; }
+
+    [Required(ErrorMessage = "Venue is required")]
+    [Display(Name = "Venue")]
+    public int VenueId { get; set; }
+
+    [StringLength(500)]
+    public string? Description { get; set; }
+
+    public string? ImageUrl { get; set; }
+
+    public virtual Venue Venue { get; set; }
+}
+
+
+
+<div class="container">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @RenderBody()
+</div>

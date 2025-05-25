@@ -9,8 +9,8 @@ namespace CyberSecurityChatBot
     public class ChatBotData
     {
         public static string[] Topics => new[]
-        {
-            "passwords", "phishing", "browsing", "safe browsing"
+       {
+            "passwords", "phishing", "browsing", "safe browsing", "scam", "privacy"
         };
     }
 }
