@@ -21,11 +21,11 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore CyberSecurityChatBot/ChatBotCyberSecurity.csproj
+       - name: Restore dependencies
+      run: dotnet restore CyberSecurityChatBot/CyberSecurityChatBot.csproj
 
     - name: Build
-      run: dotnet build ./CyberSecurityChatBot/ChatBotCyberSecurity.csproj --no-restore
+      run: dotnet build ./CyberSecurityChatBot/CyberSecurityChatBot.csproj --no-restore
 
     - name: Test
-      run: dotnet test ./CyberSecurityChatBot/ChatBotCyberSecurity.csproj --no-build --verbosity normal
+      run: dotnet test ./CyberSecurityChatBot/CyberSecurityChatBot.csproj --no-build --verbosity normal
