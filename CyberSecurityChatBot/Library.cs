@@ -48,7 +48,6 @@ namespace CyberSecurityChatBot
                 { "safe browsing", RespondWithRandomTip }
             };
         }
-
         public void SetUserName(string name)
         {
             userName = name;
@@ -72,93 +71,3 @@ namespace CyberSecurityChatBot
                     break;
                 }
             }
-
-            // Sentiment detection
-            if (!found)
-            {
-                string sentiment = null;
-                if (input.Contains("worried") || input.Contains("anxious") || input.Contains("scared"))
-                    sentiment = "worried";
-                else if (input.Contains("curious") || input.Contains("interested"))
-                    sentiment = "curious";
-                else if (input.Contains("frustrated") || input.Contains("confused") || input.Contains("unsure"))
-                    sentiment = "frustrated";
-
-                if (sentiment != null)
-                {
-                    switch (sentiment)
-                    {
-                        case "worried":
-                            Console.WriteLine($"Well {namePrefix}It's completely understandable to feel that way. Cybersecurity can be overwhelming, but I'm here to help. Let me share some tips to help you stay safe.");
-                            break;
-                        case "curious":
-                            Console.WriteLine($"Curiosity is great! Learning about cybersecurity is a smart move. Here's some information that might interest you.");
-                            break;
-                        case "frustrated":
-                            Console.WriteLine($"I understand it can be frustrating. If you need more details or clarification, just ask!");
-                            break;
-                    }
-                    // Try to find a topic in the input to continue with tips
-                    foreach (var keyword in handlers.Keys)
-                    {
-                        if (input.Contains(keyword))
-                        {
-                            handlers[keyword](keyword, namePrefix);
-                            lastTopic = keyword;
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Main keyword/topic response
-            if (!found)
-            {
-                foreach (var keyword in handlers.Keys)
-                {
-                    if (input.Contains(keyword))
-                    {
-                        handlers[keyword](keyword, namePrefix);
-                        lastTopic = keyword;
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            // Follow-up/conversation flow
-            if (!found)
-            {
-                if ((input.Contains("more") || input.Contains("details") || input.Contains("explain") || input.Contains("confused")) && lastTopic != null)
-                {
-                    Console.WriteLine($"Since you asked {namePrefix}Here's some more information about {lastTopic}:");
-                    handlers[lastTopic](lastTopic, namePrefix);
-                    found = true;
-                }
-            }
-
-            // Help and fallback
-            if (!found)
-            {
-                if (input.Contains("what can i ask") || input.Contains("help"))
-                    Console.WriteLine($"Im glad you asked {namePrefix}You can ask me about passwords, phishing, scams, privacy, browsing safely, or general cybersecurity tips!");
-                else if (favoriteTopic != null && input.Contains(favoriteTopic))
-                    Console.WriteLine($"Well {namePrefix}As someone interested in {favoriteTopic}, let me know if you want more tips or details about it!");
-                else if (string.IsNullOrWhiteSpace(input) || input.Length < 2)
-                    Console.WriteLine($"I'm not sure I understand. Can you try rephrasing?");
-                else
-                    Console.WriteLine($"I'm still in development and may not understand your request if it's not about cybersecurity. Please ask about passwords, phishing, scams, privacy, or browsing. If I didn't understand, can you try rephrasing?");
-            }
-            Console.ResetColor();
-        }
-
-
-        private void RespondWithRandomTip(string keyword, string namePrefix)
-        {
-            var responses = keywordResponses[keyword];
-            int idx = random.Next(responses.Count);
-            Console.WriteLine(responses[idx]);
-        }
-    }
-}
