@@ -134,4 +134,28 @@ namespace CyberSecurityChatBot
                     found = true;
                 }
             }
+            // Help and fallback
+            if (!found)
+            {
+                if (input.Contains("what can i ask") || input.Contains("help"))
+                    Console.WriteLine($"Im glad you asked {namePrefix}You can ask me about passwords, phishing, scams, privacy, browsing safely, or general cybersecurity tips!");
+                else if (favoriteTopic != null && input.Contains(favoriteTopic))
+                    Console.WriteLine($"Well {namePrefix}As someone interested in {favoriteTopic}, let me know if you want more tips or details about it!");
+                else if (string.IsNullOrWhiteSpace(input) || input.Length < 2)
+                    Console.WriteLine($"I'm not sure I understand. Can you try rephrasing?");
+                else
+                    Console.WriteLine($"I'm still in development and may not understand your request if it's not about cybersecurity. Please ask about passwords, phishing, scams, privacy, or browsing. If I didn't understand, can you try rephrasing?");
+            }
+            Console.ResetColor();
+        }
+
+
+        private void RespondWithRandomTip(string keyword, string namePrefix)
+        {
+            var responses = keywordResponses[keyword];
+            int idx = random.Next(responses.Count);
+            Console.WriteLine(responses[idx]);
+        }
+    }
+}
 
