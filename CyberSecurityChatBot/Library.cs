@@ -71,3 +71,42 @@ namespace CyberSecurityChatBot
                     break;
                 }
             }
+            // Sentiment detection
+            if (!found)
+            {
+                string sentiment = null;
+                if (input.Contains("worried") || input.Contains("anxious") || input.Contains("scared"))
+                    sentiment = "worried";
+                else if (input.Contains("curious") || input.Contains("interested"))
+                    sentiment = "curious";
+                else if (input.Contains("frustrated") || input.Contains("confused") || input.Contains("unsure"))
+                    sentiment = "frustrated";
+
+                if (sentiment != null)
+                {
+                    switch (sentiment)
+                    {
+                        case "worried":
+                            Console.WriteLine($"Well {namePrefix}It's completely understandable to feel that way. Cybersecurity can be overwhelming, but I'm here to help. Let me share some tips to help you stay safe.");
+                            break;
+                        case "curious":
+                            Console.WriteLine($"Curiosity is great! Learning about cybersecurity is a smart move. Here's some information that might interest you.");
+                            break;
+                        case "frustrated":
+                            Console.WriteLine($"I understand it can be frustrating. If you need more details or clarification, just ask!");
+                            break;
+                    }
+                    // Try to find a topic in the input to continue with tips
+                    foreach (var keyword in handlers.Keys)
+                    {
+                        if (input.Contains(keyword))
+                        {
+                            handlers[keyword](keyword, namePrefix);
+                            lastTopic = keyword;
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
