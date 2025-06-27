@@ -8,7 +8,8 @@
 
 A full walkthrough and demonstration of all features is available in the video below:
 
-▶️ **Watch the CyberSecurity ChatBot Demo Video**  
+▶️ **Watch the CyberSecurity ChatBot Demo Video**
+> https://youtu.be/hNUga81VimI?si=lHrBrnqoGJYyeswq
 > This video covers the GUI, Task Assistant, Quiz, NLP simulation, Activity Log, and explains the code and logic behind each feature.
 
 ## Features
